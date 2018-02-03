@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="GithubUserInfo.UserControls.FFButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GithubUserInfo.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="300">
+    <Grid>
+        <Image x:Name="image_icon" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100"/>
+        <ScrollViewer x:Name="scrollviewer_username" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Margin="105,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Label x:Name="label_username" Content="username" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontSize="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </ScrollViewer>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+    </Grid>
+</UserControl>

@@ -1,0 +1,39 @@
+﻿<Controls:MetroWindow x:Class="GithubUserInfo.Windows.MoreProfileWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:GithubUserInfo.Windows"
+        mc:Ignorable="d"
+        Title="プロフィール" Height="600" Width="500" TitleCharacterCasing="Normal" ShowMaxRestoreButton="False" ResizeMode="CanMinimize" Topmost="True">
+    <Grid>
+        <Image x:Name="image_icon" HorizontalAlignment="Left" Height="130" VerticalAlignment="Top" Width="130"/>
+        <Label x:Name="label_name" Content="Name" Margin="135,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
+        <Label x:Name="label_username" Content="Username" Margin="135,44,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <Label x:Name="label_id" Content="ID" HorizontalAlignment="Stretch" Margin="135,78,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <Label x:Name="label_company" Content="Company" Margin="0,130,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <Label x:Name="label_location" Content="Location" Margin="0,164,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <Label x:Name="label_email" Content="Email" Margin="0,198,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <Label x:Name="label_blog" Content="Blog: " Margin="0,232,434,0" VerticalAlignment="Top" FontSize="16"/>
+        <Label Margin="50,232,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="34">
+            <Hyperlink x:Name="hyperlink_blogurl" RequestNavigate="Hyperlink_RequestNavigate">
+                <TextBlock x:Name="textblock_blogurl" FontSize="16" Height="34"/>
+            </Hyperlink>
+        </Label>
+        <Label x:Name="label_htmlurl" Content="Web ProfileURL: " HorizontalAlignment="Left" Margin="0,266,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <Label HorizontalAlignment="Stretch" Margin="142,266,0,0" VerticalAlignment="Top" Height="34">
+            <Hyperlink x:Name="hyperlink_htmlurl" RequestNavigate="Hyperlink_RequestNavigate">
+                <TextBlock x:Name="textblock_htmlurl" FontSize="16" Height="34"/>
+            </Hyperlink>
+        </Label>
+        <Label x:Name="label_type" Content="Type" HorizontalAlignment="Stretch" Margin="0,300,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <Label x:Name="label_isadmin" Content="IsAdmin" Margin="0,334,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <Label x:Name="label_hireable" Content="Hireable" Margin="0,368,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <Label x:Name="label_createdat" Content="Created at" Margin="10,512,0,0" VerticalAlignment="Top" FontSize="10" FontWeight="Bold"/>
+        <Label x:Name="label_updatedat" Content="Updated at" Margin="10,537,0,0" VerticalAlignment="Top" FontSize="10" FontWeight="Bold"/>
+        <Label x:Name="label_bio" Content="自己紹介" Margin="0,402,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <TextBox x:Name="textbox_bio" Height="71" Margin="10,436,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" VerticalScrollBarVisibility="Auto" IsReadOnly="True" Controls:TextBoxHelper.AutoWatermark="True" Controls:TextBoxHelper.Watermark="自己紹介文"/>
+
+    </Grid>
+</Controls:MetroWindow>
