@@ -6,7 +6,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:GithubUserInfo.Windows"
         mc:Ignorable="d"
-        Title="リポジトリ一覧" Height="300" Width="310" ShowMaxRestoreButton="False" ResizeMode="CanMinimize" Topmost="True">
+        Title="リポジトリ一覧" Height="300" Width="310" ShowMaxRestoreButton="False" ResizeMode="CanMinimize" Topmost="True" TitleCharacterCasing="Normal">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel x:Name="repos_panel">
             

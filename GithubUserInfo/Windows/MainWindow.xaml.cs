@@ -36,9 +36,13 @@ namespace GithubUserInfo.Windows
         private User user_json = new User();
         private List<FFUser> ffusers_json = new List<FFUser>();
         private List<Repository> repositories_json = new List<Repository>();
+        private List<Repository> stars_json = new List<Repository>();
+        private List<Repository> watches_json = new List<Repository>();
         private string userinfo;
         private string ffinfo;
         private string reposlist;
+        private string stars;
+        private string watches;
 
         private static string pleasewait = "お待ちください";
         private static string loading = "読み込み中です...";
@@ -63,7 +67,11 @@ namespace GithubUserInfo.Windows
 
         private async void label_followerscount_MouseDown(object sender, MouseButtonEventArgs e) => await ShowFFUserAsync(user_json.followers_url);
 
-        private async void label_repositoriescount_MouseDown(object sender, MouseButtonEventArgs e) => await ShowRepositoriesAsync();
+        private async void label_repositoriescount_MouseDown(object sender, MouseButtonEventArgs e) => await ShowRepositoriesAsync(user_json.repos_url);
+
+        private async void label_starredcount_MouseDown(object sender, MouseButtonEventArgs e) => await ShowRepositoriesAsync(user_json.starred_url);
+
+        private async void label_watchescount_MouseDown(object sender, MouseButtonEventArgs e) => await ShowRepositoriesAsync(user_json.subscriptions_url);
 
         /// <summary>
         /// 指定したユーザーを検索します。
@@ -89,6 +97,30 @@ namespace GithubUserInfo.Windows
                     userinfo = await reader.ReadToEndAsync();
                 }
 
+                request = WebRequest.Create($"{mainurl}/users/{username}/starred?access_token={access_token}") as HttpWebRequest;
+                request.UserAgent = useragent;
+                request.Method = "GET";
+
+                response = await request.GetResponseAsync() as HttpWebResponse;
+
+                using(var stream = response.GetResponseStream())
+                {
+                    var reader = new StreamReader(stream);
+                    stars = await reader.ReadToEndAsync();
+                }
+
+                request = WebRequest.Create($"{mainurl}/users/{username}/subscriptions?access_token={access_token}") as HttpWebRequest;
+                request.UserAgent = useragent;
+                request.Method = "GET";
+
+                response = await request.GetResponseAsync() as HttpWebResponse;
+
+                using(var stream = response.GetResponseStream())
+                {
+                    var reader = new StreamReader(stream);
+                    watches = await reader.ReadToEndAsync();
+                }
+
                 await ShowUserInfoAsync(username);
 
                 await searchprogress.CloseAsync();
@@ -96,12 +128,21 @@ namespace GithubUserInfo.Windows
                 if (istextboxclear) textbox_search.Clear();
 
                 btn_more.IsEnabled = true;
+                label_followingcount.IsEnabled = true;
+                label_followerscount.IsEnabled = true;
+                label_repositoriescount.IsEnabled = true;
+                label_starredcount.IsEnabled = true;
+                label_watchescount.IsEnabled = true;
 
                 goto END;
             }
             catch (WebException err)
             {
                 await this.ShowMessageAsync(err.Status.ToString(), $"指定されたユーザーは見つかりません。以下の項目を確認してください。{Environment.NewLine}・ユーザー名が間違っていないか{Environment.NewLine}・ユーザー名ではなく、名前を指定していないか");
+                MessageBox.Show(err.ToString());
+            }catch(Exception err)
+            {
+                MessageBox.Show(err.ToString());
             }
 
             await searchprogress.CloseAsync();
@@ -115,14 +156,18 @@ namespace GithubUserInfo.Windows
         private async Task ShowUserInfoAsync(string username)
         {
             user_json = JsonConvert.DeserializeObject<User>(userinfo);
+            stars_json = JsonConvert.DeserializeObject<Repository[]>(stars).ToList();
+            watches_json = JsonConvert.DeserializeObject<Repository[]>(watches).ToList();
 
-            if(!string.IsNullOrEmpty(user_json.avatar_url)) img_icon.Source = await GetImageAsync(user_json.avatar_url);
+            if (!string.IsNullOrEmpty(user_json.avatar_url)) img_icon.Source = await GetImageAsync(user_json.avatar_url);
             label_name.Content = user_json.name;
             label_username.Content = user_json.login;
             textbox_bio.Text = user_json.bio;
             label_followingcount.Content = user_json.following.ToString() ?? "-";
             label_followerscount.Content = user_json.followers.ToString() ?? "-";
             label_repositoriescount.Content = user_json.public_repos.ToString() ?? "-";
+            label_starredcount.Content = stars_json.Count.ToString();
+            label_watchescount.Content = watches_json.Count.ToString();
         }
 
         /// <summary>
@@ -223,7 +268,7 @@ namespace GithubUserInfo.Windows
                 ffwindow.ff_panel.Children.Add(ffbtn);
             }
 
-            ffwindow.Title = url.Contains("following") ? "フォロー一覧" : "フォロワー一覧";
+            ffwindow.label_ff.Content = url.Contains("following") ? "フォロー一覧" : "フォロワー一覧";
             ffwindow.Show();
 
             await progress.CloseAsync();
@@ -232,11 +277,25 @@ namespace GithubUserInfo.Windows
         /// <summary>
         /// リポジトリ一覧を取得&表示します。
         /// </summary>
-        private async Task ShowRepositoriesAsync()
+        private async Task ShowRepositoriesAsync(string url)
         {
             var repositorieswindow = new RepositoriesWindow();
 
-            request = WebRequest.Create($"{user_json.repos_url}?access_token={access_token}") as HttpWebRequest;
+            if (url.Contains("starred"))
+            {
+                url = url.Replace("{/owner}{/repo}", string.Empty);
+                repositorieswindow.Title = "Star一覧";
+            }
+            else if(url.Contains("subscriptions"))
+            {
+                repositorieswindow.Title = "Watch一覧";
+            }
+            else
+            {
+                repositorieswindow.Title = "リポジトリ一覧";
+            }
+
+            request = WebRequest.Create($"{url}?access_token={access_token}") as HttpWebRequest;
             request.UserAgent = useragent;
             request.Method = "GET";
 

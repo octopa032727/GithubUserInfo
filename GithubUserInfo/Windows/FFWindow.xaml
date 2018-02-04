@@ -9,7 +9,7 @@
         Height="300" Width="300" TitleCharacterCasing="Normal" ShowMaxRestoreButton="False" ResizeMode="CanMinimize" ScrollViewer.VerticalScrollBarVisibility="Auto" OverlayBrush="Black" Topmost="True">
     <ScrollViewer x:Name="scrollviewer_ff" VerticalScrollBarVisibility="Auto">
         <StackPanel x:Name="ff_panel">
-            <Label x:Name="label_following" Content="フォロー or フォロワー一覧" FontSize="18"/>
+            <Label x:Name="label_ff" Content="フォロー or フォロワー一覧" FontSize="18"/>
         </StackPanel>
     </ScrollViewer>
 </Controls:MetroWindow>

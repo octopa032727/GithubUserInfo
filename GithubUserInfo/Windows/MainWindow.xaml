@@ -6,7 +6,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:GithubUserInfo.Windows"
         mc:Ignorable="d"
-        Title="Github ユーザー情報" Height="450" Width="600" TitleCharacterCasing="Normal" ShowMaxRestoreButton="False" ResizeMode="CanMinimize">
+        Title="Github ユーザー情報" Height="550" Width="650" TitleCharacterCasing="Normal" ShowMaxRestoreButton="False" ResizeMode="CanMinimize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -24,11 +24,15 @@
         <TextBox x:Name="textbox_bio" HorizontalAlignment="Stretch" Height="84" Margin="10,242,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="0" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Auto" FontSize="14" Controls:TextBoxHelper.AutoWatermark="True" Controls:TextBoxHelper.Watermark="自己紹介文" IsReadOnly="True"/>
         <Button x:Name="btn_more" Content="もっと見る..." Grid.Column="2" HorizontalAlignment="Stretch" Margin="0,208,0,0" VerticalAlignment="Top" FontSize="14" IsEnabled="False" Click="btn_more_Click"/>
         <Label x:Name="label_following" Content="Following" HorizontalAlignment="Stretch" Margin="0,326,0,0" VerticalAlignment="Top" Height="40" FontWeight="Bold" FontSize="24" HorizontalContentAlignment="Center" Grid.Column="0"/>
-        <Label x:Name="label_followingcount" Content="-" HorizontalAlignment="Stretch" Margin="0,366,0,0" VerticalAlignment="Top" FontSize="24" Grid.Column="0" HorizontalContentAlignment="Center" MouseDown="label_followingcount_MouseDown"/>
+        <Label x:Name="label_followingcount" Content="-" HorizontalAlignment="Stretch" Margin="0,366,0,0" VerticalAlignment="Top" FontSize="24" Grid.Column="0" HorizontalContentAlignment="Center" MouseDown="label_followingcount_MouseDown" IsEnabled="False"/>
         <Label x:Name="label_followers" Content="Followers" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,326,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center"/>
-        <Label x:Name="label_followerscount" Content="-" Grid.Column="1" Margin="0,366,0,0" VerticalAlignment="Top" FontSize="24" HorizontalContentAlignment="Center" MouseDown="label_followerscount_MouseDown"/>
+        <Label x:Name="label_followerscount" Content="-" Grid.Column="1" Margin="0,366,0,0" VerticalAlignment="Top" FontSize="24" HorizontalContentAlignment="Center" MouseDown="label_followerscount_MouseDown" IsEnabled="False"/>
         <Label x:Name="label_repos" Content="Repositories" Grid.Column="2" Margin="0,326,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center"/>
-        <Label x:Name="label_repositoriescount" Content="-" Grid.Column="2" Margin="0,366,5,0" VerticalAlignment="Top" FontSize="24" HorizontalContentAlignment="Center" MouseDown="label_repositoriescount_MouseDown"/>
+        <Label x:Name="label_repositoriescount" Content="-" Grid.Column="2" Margin="0,366,5,0" VerticalAlignment="Top" FontSize="24" HorizontalContentAlignment="Center" MouseDown="label_repositoriescount_MouseDown" IsEnabled="False"/>
+        <Label x:Name="label_starred" Content="Stars" Margin="0,412,0,0" VerticalAlignment="Top" Grid.Column="0" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" Height="40"/>
+        <Label x:Name="label_starredcount" Content="-" Margin="0,452,0,0" VerticalAlignment="Top" FontSize="24" Height="40" HorizontalContentAlignment="Center" MouseDown="label_starredcount_MouseDown" IsEnabled="False"/>
+        <Label x:Name="label_watches" Content="Watches" Grid.Column="1" Margin="0,412,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontSize="24" FontWeight="Bold" Height="40"/>
+        <Label x:Name="label_watchescount" Content="-" Grid.Column="1" Margin="0,452,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontSize="24" Height="40" MouseDown="label_watchescount_MouseDown" IsEnabled="False"/>
 
     </Grid>
 </Controls:MetroWindow>
