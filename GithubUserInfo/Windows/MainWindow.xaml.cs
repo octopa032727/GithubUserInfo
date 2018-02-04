@@ -140,9 +140,6 @@ namespace GithubUserInfo.Windows
             {
                 await this.ShowMessageAsync(err.Status.ToString(), $"指定されたユーザーは見つかりません。以下の項目を確認してください。{Environment.NewLine}・ユーザー名が間違っていないか{Environment.NewLine}・ユーザー名ではなく、名前を指定していないか");
                 MessageBox.Show(err.ToString());
-            }catch(Exception err)
-            {
-                MessageBox.Show(err.ToString());
             }
 
             await searchprogress.CloseAsync();
