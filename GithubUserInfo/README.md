@@ -13,7 +13,7 @@
 	- [ ] Gist
 	- [x] Starred
 	- [x] Watch
-	- [ ] Organization
+	- [x] Organization
 	- [x] リポジトリ一覧
 	- [ ] パブリックイベント一覧
 	- [x] Type

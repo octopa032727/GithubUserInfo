@@ -66,17 +66,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Jsons\Organization.cs" />
     <Compile Include="Jsons\Repository.cs" />
+    <Compile Include="UserControls\OrganizationButton.xaml.cs">
+      <DependentUpon>OrganizationButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\RepositoryViewer.xaml.cs">
       <DependentUpon>RepositoryViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\MoreProfileWindow.xaml.cs">
       <DependentUpon>MoreProfileWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\OrganizationsWindow.xaml.cs">
+      <DependentUpon>OrganizationsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\RepositoriesWindow.xaml.cs">
       <DependentUpon>RepositoriesWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="UserControls\FFButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\OrganizationButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -109,6 +120,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\MoreProfileWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\OrganizationsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

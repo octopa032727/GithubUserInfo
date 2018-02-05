@@ -38,11 +38,13 @@ namespace GithubUserInfo.Windows
         private List<Repository> repositories_json = new List<Repository>();
         private List<Repository> stars_json = new List<Repository>();
         private List<Repository> watches_json = new List<Repository>();
+        private List<Organization> organizations_json = new List<Organization>();
         private string userinfo;
         private string ffinfo;
         private string reposlist;
         private string stars;
         private string watches;
+        private string organizations;
 
         private static string pleasewait = "お待ちください";
         private static string loading = "読み込み中です...";
@@ -72,6 +74,8 @@ namespace GithubUserInfo.Windows
         private async void label_starredcount_MouseDown(object sender, MouseButtonEventArgs e) => await ShowRepositoriesAsync(user_json.starred_url);
 
         private async void label_watchescount_MouseDown(object sender, MouseButtonEventArgs e) => await ShowRepositoriesAsync(user_json.subscriptions_url);
+
+        private async void label_organizationscount_MouseDown(object sender, MouseButtonEventArgs e) => await ShowOrganizationsAsync();
 
         /// <summary>
         /// 指定したユーザーを検索します。
@@ -121,6 +125,18 @@ namespace GithubUserInfo.Windows
                     watches = await reader.ReadToEndAsync();
                 }
 
+                request = WebRequest.Create($"{mainurl}/users/{username}/orgs?access_token={access_token}") as HttpWebRequest;
+                request.UserAgent = useragent;
+                request.Method = "GET";
+
+                response = await request.GetResponseAsync() as HttpWebResponse;
+
+                using(var stream = response.GetResponseStream())
+                {
+                    var reader = new StreamReader(stream);
+                    organizations = await reader.ReadToEndAsync();
+                }
+
                 await ShowUserInfoAsync(username);
 
                 await searchprogress.CloseAsync();
@@ -155,6 +171,7 @@ namespace GithubUserInfo.Windows
             user_json = JsonConvert.DeserializeObject<User>(userinfo);
             stars_json = JsonConvert.DeserializeObject<Repository[]>(stars).ToList();
             watches_json = JsonConvert.DeserializeObject<Repository[]>(watches).ToList();
+            organizations_json = JsonConvert.DeserializeObject<Organization[]>(organizations).ToList();
 
             if (!string.IsNullOrEmpty(user_json.avatar_url)) img_icon.Source = await GetImageAsync(user_json.avatar_url);
             label_name.Content = user_json.name;
@@ -163,8 +180,9 @@ namespace GithubUserInfo.Windows
             label_followingcount.Content = user_json.following.ToString() ?? "-";
             label_followerscount.Content = user_json.followers.ToString() ?? "-";
             label_repositoriescount.Content = user_json.public_repos.ToString() ?? "-";
-            label_starredcount.Content = stars_json.Count.ToString();
-            label_watchescount.Content = watches_json.Count.ToString();
+            label_starredcount.Content = stars_json.Count;
+            label_watchescount.Content = watches_json.Count;
+            label_organizationscount.Content = organizations_json.Count;
         }
 
         /// <summary>
@@ -322,6 +340,41 @@ namespace GithubUserInfo.Windows
             }
 
             repositorieswindow.Show();
+
+            await progress.CloseAsync();
+        }
+
+        private async Task ShowOrganizationsAsync()
+        {
+            var organizationswindow = new OrganizationsWindow();
+
+            request = WebRequest.Create(user_json.organizations_url) as HttpWebRequest;
+            request.UserAgent = useragent;
+            request.Method = "GET";
+
+            var progress = await this.ShowProgressAsync(pleasewait, loading);
+
+            response = await request.GetResponseAsync() as HttpWebResponse;
+
+            using(var stream = response.GetResponseStream())
+            {
+                var reader = new StreamReader(stream);
+                organizations = await reader.ReadToEndAsync();
+            }
+
+            organizations_json = JsonConvert.DeserializeObject<Organization[]>(organizations).ToList();
+
+            foreach(var organization in organizations_json)
+            {
+                var organizationbtn = new OrganizationButton();
+                organizationbtn.image_icon.Source = await GetImageAsync(organization.avatar_url);
+                organizationbtn.label_orgname.Content = organization.login;
+                organizationbtn.textbox_description.Text = organization.description;
+
+                organizationswindow.organizations_panel.Children.Add(organizationbtn);
+            }
+
+            organizationswindow.Show();
 
             await progress.CloseAsync();
         }

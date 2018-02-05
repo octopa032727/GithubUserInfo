@@ -33,6 +33,8 @@
         <Label x:Name="label_starredcount" Content="-" Margin="0,452,0,0" VerticalAlignment="Top" FontSize="24" Height="40" HorizontalContentAlignment="Center" MouseDown="label_starredcount_MouseDown" IsEnabled="False"/>
         <Label x:Name="label_watches" Content="Watches" Grid.Column="1" Margin="0,412,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontSize="24" FontWeight="Bold" Height="40"/>
         <Label x:Name="label_watchescount" Content="-" Grid.Column="1" Margin="0,452,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontSize="24" Height="40" MouseDown="label_watchescount_MouseDown" IsEnabled="False"/>
+        <Label x:Name="label_organizations" Content="Organizations" Grid.Column="2" Margin="0,412,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" Height="40"/>
+        <Label x:Name="label_organizationscount" Content="-" Grid.Column="2" Margin="0,452,0,0" VerticalAlignment="Top" FontSize="24" HorizontalContentAlignment="Center" Height="40" MouseDown="label_organizationscount_MouseDown"/>
 
     </Grid>
 </Controls:MetroWindow>
