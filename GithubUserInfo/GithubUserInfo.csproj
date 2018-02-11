@@ -66,13 +66,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Jsons\Event.cs" />
+    <Compile Include="Jsons\Gist.cs" />
     <Compile Include="Jsons\Organization.cs" />
     <Compile Include="Jsons\Repository.cs" />
+    <Compile Include="UserControls\EventViewer.xaml.cs">
+      <DependentUpon>EventViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\GistViewer.xaml.cs">
+      <DependentUpon>GistViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\OrganizationButton.xaml.cs">
       <DependentUpon>OrganizationButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\RepositoryViewer.xaml.cs">
       <DependentUpon>RepositoryViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\EventsWindow.xaml.cs">
+      <DependentUpon>EventsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\GistsWindow.xaml.cs">
+      <DependentUpon>GistsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\MoreProfileWindow.xaml.cs">
       <DependentUpon>MoreProfileWindow.xaml</DependentUpon>
@@ -83,7 +97,15 @@
     <Compile Include="Windows\RepositoriesWindow.xaml.cs">
       <DependentUpon>RepositoriesWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="UserControls\EventViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\FFButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\GistViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -95,7 +117,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\EventsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\FFWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\GistsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

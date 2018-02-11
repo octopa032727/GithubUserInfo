@@ -6,7 +6,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:GithubUserInfo.Windows"
         mc:Ignorable="d"
-        Title="Github ユーザー情報" Height="550" Width="650" TitleCharacterCasing="Normal" ShowMaxRestoreButton="False" ResizeMode="CanMinimize">
+        Title="Github ユーザー情報" Height="620" Width="650" TitleCharacterCasing="Normal" ShowMaxRestoreButton="False" ResizeMode="CanMinimize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -18,23 +18,47 @@
         <TextBox x:Name="textbox_search" HorizontalAlignment="Stretch" Height="23" Margin="135,34,0,0" VerticalAlignment="Top" Controls:TextBoxHelper.AutoWatermark="True" Controls:TextBoxHelper.Watermark="検索するユーザー名(URLに表示される方)" FontSize="14" TextChanged="textbox_forsearch_TextChanged" Grid.ColumnSpan="3"/>
         <TextBox x:Name="textbox_accesstoken" HorizontalAlignment="Stretch" Height="23" Margin="135,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="3" Grid.Column="0" Controls:TextBoxHelper.AutoWatermark="True" Controls:TextBoxHelper.Watermark="あなたのアクセストークン" FontSize="14" TextChanged="textbox_forsearch_TextChanged"/>
         <Button x:Name="btn_search" Content="検索" HorizontalAlignment="Stretch" Margin="135,96,0,0" VerticalAlignment="Top" Click="btn_search_Click" MinHeight="25" Height="34" IsEnabled="False" Grid.ColumnSpan="3" FontSize="16"/>
-        <Label x:Name="label_name" Content="name" HorizontalAlignment="Stretch" Margin="0,135,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" Grid.ColumnSpan="3"/>
-        <Label x:Name="label_username" Content="username" HorizontalAlignment="Stretch" Margin="0,169,0,0" VerticalAlignment="Top" FontSize="16" MouseDown="label_username_MouseDown" Grid.ColumnSpan="3"/>
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Height="40" Margin="0,135,0,0" Grid.Column="0" Grid.ColumnSpan="3">
+            <Label x:Name="label_name" Content="name" HorizontalAlignment="Stretch" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
+        </ScrollViewer>
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Height="41" Margin="0,169,0,0" Grid.Column="0" Grid.ColumnSpan="3">
+            <Label x:Name="label_username" Content="username" HorizontalAlignment="Stretch" VerticalAlignment="Top" FontSize="16" MouseDown="label_username_MouseDown"/>
+        </ScrollViewer>
         <Label x:Name="label_bio" Content="自己紹介" HorizontalAlignment="Stretch" Margin="0,208,0,0" VerticalAlignment="Top" Grid.Column="0" FontSize="16"/>
-        <TextBox x:Name="textbox_bio" HorizontalAlignment="Stretch" Height="84" Margin="10,242,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="0" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Auto" FontSize="14" Controls:TextBoxHelper.AutoWatermark="True" Controls:TextBoxHelper.Watermark="自己紹介文" IsReadOnly="True"/>
+        <TextBox x:Name="textbox_bio" HorizontalAlignment="Stretch" Height="84" Margin="10,242,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="0" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Visible" FontSize="14" Controls:TextBoxHelper.AutoWatermark="True" Controls:TextBoxHelper.Watermark="自己紹介文" IsReadOnly="True"/>
         <Button x:Name="btn_more" Content="もっと見る..." Grid.Column="2" HorizontalAlignment="Stretch" Margin="0,208,0,0" VerticalAlignment="Top" FontSize="14" IsEnabled="False" Click="btn_more_Click"/>
         <Label x:Name="label_following" Content="Following" HorizontalAlignment="Stretch" Margin="0,326,0,0" VerticalAlignment="Top" Height="40" FontWeight="Bold" FontSize="24" HorizontalContentAlignment="Center" Grid.Column="0"/>
-        <Label x:Name="label_followingcount" Content="-" HorizontalAlignment="Stretch" Margin="0,366,0,0" VerticalAlignment="Top" FontSize="24" Grid.Column="0" HorizontalContentAlignment="Center" MouseDown="label_followingcount_MouseDown" IsEnabled="False"/>
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Height="50" Margin="0,366,0,0" Grid.Column="0">
+            <Label x:Name="label_followingcount" Content="-" HorizontalAlignment="Stretch" VerticalAlignment="Top" FontSize="24" HorizontalContentAlignment="Center" MouseDown="label_followingcount_MouseDown" IsEnabled="False"/>
+        </ScrollViewer>
         <Label x:Name="label_followers" Content="Followers" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,326,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center"/>
-        <Label x:Name="label_followerscount" Content="-" Grid.Column="1" Margin="0,366,0,0" VerticalAlignment="Top" FontSize="24" HorizontalContentAlignment="Center" MouseDown="label_followerscount_MouseDown" IsEnabled="False"/>
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Height="50" Margin="0,366,0,0" Grid.Column="1">
+            <Label x:Name="label_followerscount" Content="-" VerticalAlignment="Top" FontSize="24" HorizontalContentAlignment="Center" MouseDown="label_followerscount_MouseDown" IsEnabled="False"/>
+        </ScrollViewer>
         <Label x:Name="label_repos" Content="Repositories" Grid.Column="2" Margin="0,326,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center"/>
-        <Label x:Name="label_repositoriescount" Content="-" Grid.Column="2" Margin="0,366,5,0" VerticalAlignment="Top" FontSize="24" HorizontalContentAlignment="Center" MouseDown="label_repositoriescount_MouseDown" IsEnabled="False"/>
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Height="50" Margin="0,366,5,0" Grid.Column="2">
+            <Label x:Name="label_repositoriescount" Content="-" VerticalAlignment="Top" FontSize="24" HorizontalContentAlignment="Center" MouseDown="label_repositoriescount_MouseDown" IsEnabled="False"/>
+        </ScrollViewer>
         <Label x:Name="label_starred" Content="Stars" Margin="0,412,0,0" VerticalAlignment="Top" Grid.Column="0" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" Height="40"/>
-        <Label x:Name="label_starredcount" Content="-" Margin="0,452,0,0" VerticalAlignment="Top" FontSize="24" Height="40" HorizontalContentAlignment="Center" MouseDown="label_starredcount_MouseDown" IsEnabled="False"/>
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Height="50" Margin="0,452,0,0" Grid.Column="0">
+            <Label x:Name="label_starredcount" Content="-" VerticalAlignment="Top" FontSize="24" Height="40" HorizontalContentAlignment="Center" MouseDown="label_starredcount_MouseDown" IsEnabled="False"/>
+        </ScrollViewer>
         <Label x:Name="label_watches" Content="Watches" Grid.Column="1" Margin="0,412,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontSize="24" FontWeight="Bold" Height="40"/>
-        <Label x:Name="label_watchescount" Content="-" Grid.Column="1" Margin="0,452,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontSize="24" Height="40" MouseDown="label_watchescount_MouseDown" IsEnabled="False"/>
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Height="50" Margin="0,452,0,0" Grid.Column="1">
+            <Label x:Name="label_watchescount" Content="-" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontSize="24" Height="40" MouseDown="label_watchescount_MouseDown" IsEnabled="False"/>
+        </ScrollViewer>
         <Label x:Name="label_organizations" Content="Organizations" Grid.Column="2" Margin="0,412,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" Height="40"/>
-        <Label x:Name="label_organizationscount" Content="-" Grid.Column="2" Margin="0,452,0,0" VerticalAlignment="Top" FontSize="24" HorizontalContentAlignment="Center" Height="40" MouseDown="label_organizationscount_MouseDown"/>
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Height="50" Margin="0,452,0,0" Grid.Column="2">
+            <Label x:Name="label_organizationscount" Content="-" VerticalAlignment="Top" FontSize="24" HorizontalContentAlignment="Center" Height="40" MouseDown="label_organizationscount_MouseDown" IsEnabled="False"/>
+        </ScrollViewer>
+        <Label x:Name="label_gists" Content="Gists" HorizontalAlignment="Stretch" Margin="0,492,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" Grid.Column="0"/>
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Height="50" Margin="0,538,0,0" Grid.Column="0">
+            <Label x:Name="label_gistscount" Content="-" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontSize="24" MouseDown="label_gistscount_MouseDown" IsEnabled="False"/>
+        </ScrollViewer>
+        <Label x:Name="label_events" Content="Events" Grid.Column="1" Margin="0,492,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center"/>
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Height="50" Margin="0,538,0,0" Grid.Column="1">
+            <Label x:Name="label_eventscount" Content="-" HorizontalAlignment="Stretch" VerticalAlignment="Top" FontSize="24" HorizontalContentAlignment="Center" MouseDown="label_eventscount_MouseDown" IsEnabled="False"/>
+        </ScrollViewer>
 
     </Grid>
 </Controls:MetroWindow>

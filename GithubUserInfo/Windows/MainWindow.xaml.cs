@@ -39,12 +39,17 @@ namespace GithubUserInfo.Windows
         private List<Repository> stars_json = new List<Repository>();
         private List<Repository> watches_json = new List<Repository>();
         private List<Organization> organizations_json = new List<Organization>();
+        private List<Gist> gists_json = new List<Gist>();
+        private List<Event> events_json = new List<Event>();
+
         private string userinfo;
         private string ffinfo;
         private string reposlist;
         private string stars;
         private string watches;
         private string organizations;
+        private string gists;
+        private string events;
 
         private static string pleasewait = "お待ちください";
         private static string loading = "読み込み中です...";
@@ -77,65 +82,46 @@ namespace GithubUserInfo.Windows
 
         private async void label_organizationscount_MouseDown(object sender, MouseButtonEventArgs e) => await ShowOrganizationsAsync();
 
+        private async void label_gistscount_MouseDown(object sender, MouseButtonEventArgs e) => await ShowGistsAsync();
+
+        private async void label_eventscount_MouseDown(object sender, MouseButtonEventArgs e) => await ShowEventsAsync();
+
+        /// <summary>
+        /// api.github.comの各ディレクトリにアクセスして、結果を得ます。
+        /// </summary>
+        private async Task<string> GetSerialized(string url)
+        {
+            request = WebRequest.Create(url) as HttpWebRequest;
+            request.UserAgent = useragent;
+            request.Method = "GET";
+
+            response = await request.GetResponseAsync() as HttpWebResponse;
+
+            string result = default;
+
+            using (var reader = new StreamReader(response.GetResponseStream()))
+            {
+                result = await reader.ReadToEndAsync();
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// 指定したユーザーを検索します。
         /// </summary>
         private async Task SearchUserAsync(string username, bool istextboxclear = false)
         {
-            access_token = textbox_accesstoken.Text;
-            request = WebRequest.Create($"{mainurl}/users/{username}?access_token={access_token}") as HttpWebRequest;
-            request.UserAgent = useragent;
-            request.Method = "GET";
-
-            ProgressDialogController searchprogress = default;
+            var searchprogress = await this.ShowProgressAsync(pleasewait, loading);
 
             try
             {
-                searchprogress = await this.ShowProgressAsync(pleasewait, loading);
-
-                response = await request.GetResponseAsync() as HttpWebResponse;
-
-                using (var stream = response.GetResponseStream())
-                {
-                    var reader = new StreamReader(stream);
-                    userinfo = await reader.ReadToEndAsync();
-                }
-
-                request = WebRequest.Create($"{mainurl}/users/{username}/starred?access_token={access_token}") as HttpWebRequest;
-                request.UserAgent = useragent;
-                request.Method = "GET";
-
-                response = await request.GetResponseAsync() as HttpWebResponse;
-
-                using(var stream = response.GetResponseStream())
-                {
-                    var reader = new StreamReader(stream);
-                    stars = await reader.ReadToEndAsync();
-                }
-
-                request = WebRequest.Create($"{mainurl}/users/{username}/subscriptions?access_token={access_token}") as HttpWebRequest;
-                request.UserAgent = useragent;
-                request.Method = "GET";
-
-                response = await request.GetResponseAsync() as HttpWebResponse;
-
-                using(var stream = response.GetResponseStream())
-                {
-                    var reader = new StreamReader(stream);
-                    watches = await reader.ReadToEndAsync();
-                }
-
-                request = WebRequest.Create($"{mainurl}/users/{username}/orgs?access_token={access_token}") as HttpWebRequest;
-                request.UserAgent = useragent;
-                request.Method = "GET";
-
-                response = await request.GetResponseAsync() as HttpWebResponse;
-
-                using(var stream = response.GetResponseStream())
-                {
-                    var reader = new StreamReader(stream);
-                    organizations = await reader.ReadToEndAsync();
-                }
+                access_token = textbox_accesstoken.Text;
+                userinfo = await GetSerialized($"{mainurl}/users/{username}?access_token={access_token}");
+                stars = await GetSerialized($"{mainurl}/users/{username}/starred?access_token={access_token}");
+                watches = await GetSerialized($"{mainurl}/users/{username}/subscriptions?access_token={access_token}");
+                organizations = await GetSerialized($"{mainurl}/users/{username}/orgs?access_token={access_token}");
+                events = await GetSerialized($"{mainurl}/users/{username}/events?access_token={access_token}");
 
                 await ShowUserInfoAsync(username);
 
@@ -149,6 +135,9 @@ namespace GithubUserInfo.Windows
                 label_repositoriescount.IsEnabled = true;
                 label_starredcount.IsEnabled = true;
                 label_watchescount.IsEnabled = true;
+                label_organizationscount.IsEnabled = true;
+                label_gistscount.IsEnabled = true;
+                label_eventscount.IsEnabled = true;
 
                 goto END;
             }
@@ -172,6 +161,7 @@ namespace GithubUserInfo.Windows
             stars_json = JsonConvert.DeserializeObject<Repository[]>(stars).ToList();
             watches_json = JsonConvert.DeserializeObject<Repository[]>(watches).ToList();
             organizations_json = JsonConvert.DeserializeObject<Organization[]>(organizations).ToList();
+            events_json = JsonConvert.DeserializeObject<Event[]>(events).ToList();
 
             if (!string.IsNullOrEmpty(user_json.avatar_url)) img_icon.Source = await GetImageAsync(user_json.avatar_url);
             label_name.Content = user_json.name;
@@ -183,6 +173,8 @@ namespace GithubUserInfo.Windows
             label_starredcount.Content = stars_json.Count;
             label_watchescount.Content = watches_json.Count;
             label_organizationscount.Content = organizations_json.Count;
+            label_gistscount.Content = user_json.public_gists.ToString() ?? "-";
+            label_eventscount.Content = events_json.Count;
         }
 
         /// <summary>
@@ -247,25 +239,14 @@ namespace GithubUserInfo.Windows
         }
 
         /// <summary>
-        /// フォロー&フォロワーユーザーを取得&表示します。
+        /// フォロー&フォロワーユーザーを取得, 表示します。
         /// </summary>
         private async Task ShowFFUserAsync(string url)
         {
             var ffwindow = new FFWindow();
-
-            request = WebRequest.Create($"{url}?access_token={access_token}".Replace("{/other_user}", string.Empty)) as HttpWebRequest;
-            request.UserAgent = useragent;
-            request.Method = "GET";
-
             var progress = await this.ShowProgressAsync(pleasewait, loading);
 
-            response = await request.GetResponseAsync() as HttpWebResponse;
-
-            using (var stream = response.GetResponseStream())
-            {
-                var reader = new StreamReader(stream);
-                ffinfo = await reader.ReadToEndAsync();
-            }
+            ffinfo = await GetSerialized($"{url}?access_token={access_token}".Replace("{/other_user}", string.Empty));
 
             ffusers_json = JsonConvert.DeserializeObject<FFUser[]>(ffinfo).ToList();
 
@@ -290,11 +271,12 @@ namespace GithubUserInfo.Windows
         }
 
         /// <summary>
-        /// リポジトリ一覧を取得&表示します。
+        /// リポジトリ一覧を取得, 表示します。
         /// </summary>
         private async Task ShowRepositoriesAsync(string url)
         {
             var repositorieswindow = new RepositoriesWindow();
+            var progress = await this.ShowProgressAsync(pleasewait, loading);
 
             if (url.Contains("starred"))
             {
@@ -310,19 +292,7 @@ namespace GithubUserInfo.Windows
                 repositorieswindow.Title = "リポジトリ一覧";
             }
 
-            request = WebRequest.Create($"{url}?access_token={access_token}") as HttpWebRequest;
-            request.UserAgent = useragent;
-            request.Method = "GET";
-
-            var progress = await this.ShowProgressAsync(pleasewait, loading);
-
-            response = (HttpWebResponse)request.GetResponse();
-
-            using (var stream = response.GetResponseStream())
-            {
-                var reader = new StreamReader(stream);
-                reposlist = await reader.ReadToEndAsync();
-            }
+            reposlist = await GetSerialized($"{url}?access_token={access_token}");
 
             repositories_json = JsonConvert.DeserializeObject<Repository[]>(reposlist).ToList();
 
@@ -344,23 +314,15 @@ namespace GithubUserInfo.Windows
             await progress.CloseAsync();
         }
 
+        /// <summary>
+        /// Organization一覧を取得, 表示します。
+        /// </summary>
         private async Task ShowOrganizationsAsync()
         {
             var organizationswindow = new OrganizationsWindow();
-
-            request = WebRequest.Create(user_json.organizations_url) as HttpWebRequest;
-            request.UserAgent = useragent;
-            request.Method = "GET";
-
             var progress = await this.ShowProgressAsync(pleasewait, loading);
 
-            response = await request.GetResponseAsync() as HttpWebResponse;
-
-            using(var stream = response.GetResponseStream())
-            {
-                var reader = new StreamReader(stream);
-                organizations = await reader.ReadToEndAsync();
-            }
+            organizations = await GetSerialized(user_json.organizations_url);
 
             organizations_json = JsonConvert.DeserializeObject<Organization[]>(organizations).ToList();
 
@@ -375,6 +337,62 @@ namespace GithubUserInfo.Windows
             }
 
             organizationswindow.Show();
+
+            await progress.CloseAsync();
+        }
+
+
+        /// <summary>
+        /// Gist一覧を取得, 表示します。
+        /// </summary>
+        private async Task ShowGistsAsync()
+        {
+            var gistswindow = new GistsWindow();
+            var progress = await this.ShowProgressAsync(pleasewait, loading);
+
+            gists = await GetSerialized(user_json.gists_url.Replace("{/gist_id}", string.Empty));
+
+            gists_json = JsonConvert.DeserializeObject<Gist[]>(gists).ToList();
+
+            foreach(var gist in gists_json)
+            {
+                var gistviewer = new GistViewer();
+                gistviewer.textbox_description.Text = gist.description;
+                gistviewer.label_comments.Content = $"Comments: {gist.comments}";
+                gistviewer.label_createdat.Content = $"Created at {gist.created_at.ToLocalTime()}";
+                gistviewer.label_updatedat.Content = $"Updated at {gist.updated_at.ToLocalTime()}";
+
+                gistswindow.gists_panel.Children.Add(gistviewer);
+            }
+
+            gistswindow.Show();
+
+            await progress.CloseAsync();
+        }
+
+        /// <summary>
+        /// Event一覧を取得, 表示します。
+        /// </summary>
+        private async Task ShowEventsAsync()
+        {
+            var eventswindow = new EventsWindow();
+            var progress = await this.ShowProgressAsync(pleasewait, loading);
+
+            events = await GetSerialized(user_json.events_url.Replace("{/privacy}", string.Empty));
+
+            events_json = JsonConvert.DeserializeObject<Event[]>(events).ToList();
+
+            foreach(var evnt in events_json)
+            {
+                var eventviewer = new EventViewer();
+                eventviewer.label_type.Content = evnt.type;
+                eventviewer.label_reponame.Content = evnt.repo.name;
+                eventviewer.label_createdat.Content = $"Created at {evnt.created_at.ToLocalTime()}";
+
+                eventswindow.events_panel.Children.Add(eventviewer);
+            }
+
+            eventswindow.Show();
 
             await progress.CloseAsync();
         }

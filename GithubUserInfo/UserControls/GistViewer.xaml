@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="GithubUserInfo.UserControls.GistViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GithubUserInfo.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="170" d:DesignWidth="300">
+    <Grid>
+        <Border BorderBrush="Black" BorderThickness="1"/>
+        <TextBox x:Name="textbox_description" Height="70" TextWrapping="Wrap" VerticalAlignment="Top" Text="Description" Background="Transparent" BorderThickness="0"/>
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Top" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Height="45" Margin="0,70,0,0">
+            <Label x:Name="label_comments" Content="Comments" VerticalAlignment="Top" FontSize="14"/>
+        </ScrollViewer>
+        <Label x:Name="label_createdat" Content="Created at" VerticalAlignment="Top" FontSize="10" FontWeight="Bold" Margin="0,112,0,0"/>
+        <Label x:Name="label_updatedat" Content="Updated at " Margin="0,142,0,0" VerticalAlignment="Top" FontSize="10" FontWeight="Bold"/>
+    </Grid>
+</UserControl>

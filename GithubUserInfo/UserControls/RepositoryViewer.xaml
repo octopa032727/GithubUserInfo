@@ -5,15 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GithubUserInfo.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="310">
+             d:DesignHeight="220" d:DesignWidth="310">
     <Grid>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-        <Label x:Name="label_reponame" Content="RepositoryName" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Foreground="CornflowerBlue"/>
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Height="40">
+            <Label x:Name="label_reponame" Content="RepositoryName" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Foreground="CornflowerBlue"/>
+        </ScrollViewer>
         <TextBox x:Name="textbox_description" Height="60" Margin="0,37,0,0" TextWrapping="Wrap" Text="Description" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="Transparent" VerticalScrollBarVisibility="Auto" IsReadOnly="True" BorderThickness="0"/>
         <Label x:Name="label_language" Content="Language" Margin="0,102,0,0" VerticalAlignment="Top" FontWeight="Bold" Foreground="Red"/>
         <Label x:Name="label_star" Content="★" HorizontalAlignment="Left" Margin="0,132,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16"/>
-        <Label x:Name="label_starscount" Content="-" Margin="26,136,0,0" VerticalAlignment="Top"/>
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Height="40" Margin="26,136,0,0">
+            <Label x:Name="label_starscount" Content="-" VerticalAlignment="Top"/>
+        </ScrollViewer>
         <Label x:Name="label_forks" Content="Fork" HorizontalAlignment="Left" Margin="0,164,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16"/>
-        <Label x:Name="label_forkscount" Content="-" Margin="47,168,0,0" VerticalAlignment="Top"/>
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Height="40" Margin="47,168,0,0">
+            <Label x:Name="label_forkscount" Content="-" VerticalAlignment="Top"/>
+        </ScrollViewer>
     </Grid>
 </UserControl>
